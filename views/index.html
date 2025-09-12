@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/assets/pico.min.css">
+</head>
+<body>
+    <main class="container">
+        <h1>My Todo List</h1>
+        <?php foreach($todos as $todo) { ?>
+        <article>
+            <header>
+                <small>Due: <?=$todo->formatDueDate();?></small>
+            </header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3><?=$todo->description;?></h3>
+                    <?php
+                        $color = 'red';
+                        $status = 'Pending';
+                        
+                        if ($todo->isCompleted) {
+                            $color = 'green';
+                            $status = 'Completed';
+                        }
+                    ?>
+                    <span class="badge" style="background-color: <?=$color;?>; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">
+                        <?=$status;?>
+                    </span>
+                </div>
+        </article>
+        <?php } ?>
+    </main>
+</body>
+</html>
