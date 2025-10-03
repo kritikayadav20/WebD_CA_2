@@ -1,23 +1,28 @@
 <?php
+require 'database/db.php';
 require 'classes/Todo.php';
-$pdo = new PDO('mysql:host=127.0.0.1;dbname=todos', 'root', '');
 
-$query = 'SELECT * FROM todos';
+$pdo = db_connect();
 
-$statement = $pdo->prepare($query);
-
-$statement->execute();
-
-$rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+$rows = db_fetch_all($pdo, 'todos');
 
 $todos = [];
+$dueToday = [];
+
+$today = date('Y-m-d');
 
 foreach ($rows as $row) {
     $todo = new Todo($row['description'], $row['due_date']);
     if ($row['is_completed']) {
         $todo->markAsCompleted();
     }
+    
+    $todo->id = $row['id'];
     $todos[] = $todo;
+    
+    if ($row['due_date'] === $today) {
+        $dueToday[] = $todo;
+    }
 }
 
 require 'views/index.html';

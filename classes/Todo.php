@@ -2,6 +2,7 @@
 
 class Todo
 {
+    public $id;
     public string $description;
     public string $dueDate;
     public bool $isCompleted = false;
